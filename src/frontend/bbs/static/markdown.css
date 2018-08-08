@@ -1,0 +1,11 @@
+textarea.flask-pagedown-input {
+    height: 500px;
+}
+
+div.flask-pagedown-preview {
+    height: 500px;
+    border : 1px solid #dddddd; 
+    overflow-y : scroll;
+    overflow : auto; 
+    background : #f7f7f8 
+}
