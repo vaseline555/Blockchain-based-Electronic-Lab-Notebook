@@ -1,0 +1,71 @@
+rule SystemACL
+{
+  description:  "System ACL to permit all access"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
+}
+
+rule NetworkAdminUser
+{
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem
+{
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+
+rule officerCanCreateBLN
+{
+    description: "blockchain lab note initially created by only unist research officer"
+    participant: "labnotebook.blockchain.officer"
+    operation: CREATE
+    resource: "labnotebook.blockchain.LabNotebook"
+    action: ALLOW
+}
+
+rule researcherCanCreateNotebookPage
+{
+    description: "blockchain lab note page created by researcher frequently"
+    participant: "labnotebook.blockchain.researcher"
+    operation: CREATE
+    resource: "labnotebook.blockchain.NotebookPage"
+    action: ALLOW
+}
+
+rule researcherCanUpdatePageContents 
+{
+    description: "pagecontent can only updated by researcher"
+    participant: "labnotebook.blockchain.researcher"
+    operation: UPDATE
+    resource: "labnotebook.blockchain.PageContents"
+    action: ALLOW
+}
+
+rule NobodyCanDeleteBLN
+{
+    description: "notebook can not be deleted by anyone"
+    participant: "ANY"
+    operation: DELETE
+    resource: "labnotebook.blockchain.LabNotebook"
+    action: DENY
+}
+
+rule EverybodyCanReadBLN
+{
+    description: "all participant in chain can read lab note"
+    participant: "ANY"
+    operation: READ
+    resource: "labnotebook.blockchain.LabNotebook"
+    action: ALLOW
+}
