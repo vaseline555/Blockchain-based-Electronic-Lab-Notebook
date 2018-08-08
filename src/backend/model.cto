@@ -1,0 +1,245 @@
+namespace labnotebook.blockchain
+
+/*
+   PARTICIPANTS
+
+   - researcher
+       - head (PI or Advisor) == verifier
+   - officer
+    - insepctor
+
+*/
+
+concept Name
+{
+  o String firstName
+  o String lastName
+}
+
+participant researcher identified by ResearcherID 
+{
+  o String ResearcherID
+  o Name name
+  o String Organization
+  o String Position // phD or MS or Researcher
+}
+
+participant head extends researcher {}
+
+participant inspector identified by InspectorID 
+{
+  o String InspectorID
+  o Name name
+  o String Organization
+  o String Position
+}
+
+participant officer identified by OfficerID 
+{
+  o String OfficerID
+  o Name name
+  o String Organization
+  o String Position
+}
+
+/*
+   ASSETS
+
+    -LabNotebook
+       -NotebookPage
+          -PageContents
+*/
+enum officialStatus
+{
+  o ADMITTED
+  o REJECTED
+  o TRANSFERRED
+  o UNDEFINED
+}
+
+enum inspectionStatus
+{
+  o PASSED
+  o VIOLATED
+  o UNDEFINED
+}
+
+asset LabNotebook identified by ProjectID
+{
+  o String ProjectID
+  o String ProjectDescription optional
+  o String WhoSupport optional
+  o Integer cumulPages
+  
+  o DateTime StartDate
+  o DateTime ProcessedDate optional
+  o DateTime InspectedDate optional
+  o DateTime EndDate optional
+
+  o officialStatus oStatus
+  o inspectionStatus iStatus
+  
+  --> researcher[] Researcher
+  --> inspector[] Inspector 
+  --> officer[] Officer
+  --> head[] Head
+
+  o NotebookPage[] firstPage optional
+}
+
+enum Page_Status
+{
+  o ACCEPTED
+  o REJECTED
+  o REQUESTED
+  o UNDEFINED
+}
+
+asset NotebookPage identified by PageID
+{ 
+  o String PageID
+  o Integer PageNum 
+
+  o DateTime WroteDate optional
+  o DateTime CheckedDate optional
+  o DateTime RequestedDate optional
+  o DateTime ModifiedDate optional
+
+  o Page_Status Status
+
+  --> researcher[] Writer optional
+  --> head[] Advisor
+
+  o PageContents[] Contents optional
+}
+
+
+concept PageContents
+{
+  o String[] text
+  o String[] image optional
+  o String[] equation optional
+}
+
+/*
+   TRANSACTION
+    - Initialize a project (Officer)
+    - Write a lab notebook (Researcher)
+    - Modify a lab notebook (Researcher)
+    - Request a lab notebook (Researcher)
+    - Process a lab notebook (Officer)
+    - Check a lab notebook (Inspector)
+    - Complete and close a lab notebook (Officer)
+*/
+transaction setupDemo
+{}
+
+transaction initBLN
+{
+  o String ProjectID
+  o String ProjectName
+  o String ProjectDescription optional
+  o DateTime createdDate
+  
+  --> researcher[] researchers
+  --> head[] heads
+  --> officer[] officers
+  --> inspector[] inspectors
+}
+
+transaction writePage
+{
+  o DateTime writtenDate
+  o PageContents contents
+  --> LabNotebook Project
+  --> researcher[] Writer
+  --> researcher[] Advisor
+}
+
+transaction researcher_modifyBLN
+{
+  	o DateTime modifiedDate
+    o PageContents[] modiContents
+    --> researcher[] Writer
+    --> NotebookPage PageToModify
+}
+
+transaction researcher_requestAcceptance
+{
+  --> NotebookPage PageToBeRequest
+  --> researcher[] Researcher
+  --> officer[] requestToWhom
+  o DateTime reRequestDate
+}
+
+transaction verifier_verifyBLN
+{
+    --> head[] Verifier
+   	--> NotebookPage pageToBeVerified
+    o DateTime verifiedDate
+    o Boolean verificationResult
+
+    o String comments optional
+}
+
+enum office_Status
+{
+  o ADMIT
+  o REJECT
+  o TRANSFER
+}
+
+transaction officer_processBLN
+{
+ 	--> officer[] Officer
+    --> LabNotebook LNToBeProcessed
+    o office_Status Status
+    o DateTime officer_acceptedDate
+}
+
+transaction inspector_checkBLN
+{
+    --> inspector[] Inspector
+    --> LabNotebook LNname
+    
+    o Boolean inspectionResult
+    o String comments optional
+}
+
+transaction closeBLN
+{
+  o DateTime closedDate
+  --> LabNotebook LabNotebook
+}
+
+transaction newResearcher
+{
+  o String ResearcherID
+  o Name name
+  o String Organization
+  o String Position
+}
+
+transaction newOfficer
+{
+  o String OfficerID
+  o Name name
+  o String Organization
+  o String Position
+}
+
+transaction newInspector
+{
+  o String InspectorID
+  o Name name
+  o String Organization
+  o String Position
+}
+
+transaction newHead
+{
+  o String HeadID
+  o Name name
+  o String Organization
+  o String Position
+}
