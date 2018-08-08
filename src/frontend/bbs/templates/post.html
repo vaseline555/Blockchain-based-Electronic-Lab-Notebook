@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags * must be placed first, any other content must * follow*! -->    
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>CorgiLAB-Blockchain-based Electronic Lab Notebook</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/static/css/starter-template.css" rel="stylesheet">
+    <link href="/static/vendor/umeditor1_2_2-utf8/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Corgi LAB</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class=""><a href="/post">Write</a></li>
+                    {% if current_user.is_authenticated %}
+                        <li><a href="/userposts?user_id={{ current_user.id }}">[ USER : {{ current_user.nickname }} ]</a></li>
+                        <li><a href="/logout">Sign Out</a></li>
+                    {% else %}
+                        <li><a href="/login">Sign In</a></li>
+                        <li><a href="/reg">Sign Up</a></li>
+                    {% endif %}
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container">
+        <form action="/post/save" method="post" class="col-lg-8 col-lg-offset-2" id="form_post" style="margin-top: 15px">
+            <h2 class="form-signin-heading" style="text-align: center;">WRITE A NEW PAGE</h2>
+            <br/>
+            <div class="form-group">
+                <label for="title">TITLE</label>
+                <input type="text" name="title" id="title" class="form-control" placeholder="Write a title" required=""
+                        autofocus="">
+            </div>
+
+            <div class="form-group">
+                <label for="myEditor">CONTENTS</label>
+                <input type="hidden" id="content" name="content" value="">
+                <!-- Load the editor's container -->
+               <div class="edui-container">
+                   <div class="edui-editor-body">
+                      <div id="myEditor" class="edui-body-container" style="align-self: center; width: 748px;" contenteditable="true">
+                         <p></p>
+                      </div>
+                   </div>
+                </div>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" onclick="return doSubmit()">Submit</button>
+        </form>    
+    </div><!-- /.container -->
+
+    <div class="mod-footer" style="height: 100px;">
+        <br/><br/><br/>
+        <footer id="footer">
+        <div id="footer-content" align="center">&copy; Seokju Hahn. 2018</div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="/static/vendor/umeditor1_2_2-utf8/third-party/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/vendor/umeditor1_2_2-utf8/umeditor.config.js"></script>
+    <script type="text/javascript" src="/static/vendor/umeditor1_2_2-utf8/umeditor.min.js"></script>
+    <script type="text/javascript" src="/static/vendor/umeditor1_2_2-utf8/lang/en/en.js"></script>
+    <script type="text/javascript">
+        var um = UM.getEditor('myEditor',{
+             // Here you can choose the tool button name you need, here are only seven options
+             Toolbar:['fullscreen source undo redo bold italic underline'],
+             //Automatically empty the contents of initialization when //focus
+             autoClearinitialContent:true,
+             //Close word count
+             wordCount:false,
+             //Close elementPath
+             elementPathEnabled:false,
+             // The default edit area height
+             initialFrameHeight:300
+             //For other parameters, please refer to the configuration item in umeditor.config.js
+        });
+        
+        function doSubmit() {
+            $("#content").val(um.getContent());
+            return true;
+        }
+    </script>
+</body>
+</html>
