@@ -8,6 +8,7 @@ Course project of MGE450 Project Lab, UNIST
 * With the help of IBM's Hyperledger Composer & Fabric framework
 * Blockchain framework is worked as a backend database (still partially depends on SQL-database)
 * Frontend is implemented using Python-Flask (w/ Jinja2, SQLite)
+* Demo video : https://youtu.be/s_GrszkhxY0
 
 <hr>
 By. Seokju Hahn / https://www.kaggle.com/ggouaeng / sjhahn11512@naver.com
