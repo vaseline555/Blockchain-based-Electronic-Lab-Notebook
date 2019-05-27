@@ -11,4 +11,4 @@ Course project of MGE450 Project Lab, UNIST
 * Demo video : https://youtu.be/s_GrszkhxY0
 
 <hr>
-By. Seokju Hahn / https://www.kaggle.com/ggouaeng / sjhahn11512@naver.com
+By. Seokju Hahn / https://www.kaggle.com/vaseline555 / sjhahn11512@naver.com
