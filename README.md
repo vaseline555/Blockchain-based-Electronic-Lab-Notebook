@@ -10,5 +10,3 @@ Course project of MGE450: Project Lab, UNIST
 * Frontend is implemented using Python-Flask (w/ Jinja2, SQLite)
 * Demo video : https://youtu.be/s_GrszkhxY0
 
-<hr>
-By. Seokju Hahn / https://www.kaggle.com/vaseline555 / sjhahn11512@naver.com
