@@ -1,6 +1,6 @@
 # Blockchain based Electronic Lab Notebook
 <pre>
-Course project of MGE450 Project Lab, UNIST
+Course project of MGE450: Project Lab, UNIST
 </pre>
 
 ## Description
